@@ -22,3 +22,7 @@ WHAT ABOUT AUTHENTICATION? CGI::Application::Plugin::Authenticate is broken as a
   - List::Util, List::MoreUtils...................LOVE these
   - POSIX.........................................not sure what i'm using this for?
   - Carp..........................................DIE DIE DIE!
+
+#
+# Now i'm just messing around with git...
+#
