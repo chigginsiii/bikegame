@@ -1,0 +1,12 @@
+[% WRAPPER wrapper.tt page_title = "Something's not right here..." no_google = 1 %]
+
+<h3>Dummy!</h3>
+
+<h2 style="color:red">[% message %]</h2>
+
+<p>Placeholder page for app: <strong>[% class %]</strong>, run mode: <strong>[% rm %]</strong></p>
+
+<p>CGI::Application Object:</p>
+<pre>[% cgi_app %]</pre>
+
+[% END # WRAPPER page_title %]

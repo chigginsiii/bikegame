@@ -1,0 +1,238 @@
+[% USE date %]
+[%  IF edit_ride;
+     INCLUDE edit_ride;
+    ELSE;
+%]
+<form action="/app/rides/add" method="POST">
+  <input type="hidden" name="player_id" value="[% player_id %]" />
+[%   IF tab == 'new_ride';
+        INCLUDE new_ride_form;
+     ELSIF tab == 'saved_ride';
+        INCLUDE saved_ride_form;
+     ELSIF tab == 'import';
+        INCLUDE import_rides_form;
+     END;
+%]
+</form>
+[%  END # IF edit_ride %]
+[% ### NEW RIDE FORM ###%]
+[% BLOCK new_ride_form %]
+   [% date_form_elm     = INCLUDE calendar_form %]
+   [% time_form_elm     = INCLUDE time_form     %]
+   [% datetime_form_elm = date_form_elm _ ' ' _ time_form_elm %]
+   [% INCLUDE form_line form_label = "Date" form_control = datetime_form_elm %]
+   [% ride_type_form_elm = INCLUDE ride_type_form %]
+   [% INCLUDE form_line form_label = "Ride Type" form_control = ride_type_form_elm %]
+   [% bike_select_form_elm = INCLUDE bike_select_form %]
+   [% INCLUDE form_line form_label = "Bike" form_control = bike_select_form_elm %]
+   [% INCLUDE form_line form_label = "Distance (mi)"  form_control = '<input name="distance" value="0.00" size="6" maxlength="6"/>' %]
+   [% INCLUDE form_line form_label = "Climb (ft)"     form_control = '<input name="climb"    value="0"    size="6" maxlength="6"/>' %]
+   [% elapsed_time_form_elm = INCLUDE elapsed_time_form %]
+   [% INCLUDE form_line form_label = "Elapsed Time" form_control = elapsed_time_form_elm %]
+   [% avg_speed_form_elm = INCLUDE avg_speed_form %]
+   [% INCLUDE form_line form_label = "Average Speed" form_control = avg_speed_form_elm %]
+   [% ride_url_form_elm = INCLUDE ride_url_form %]
+   [% INCLUDE form_line form_label = "Ride URL" form_control = ride_url_form_elm %]
+   [% ride_notes_form_elm = INCLUDE ride_notes_form %]
+   [% INCLUDE form_line form_label = "Ride Notes" form_control = ride_notes_form_elm %]
+   [% bookmark_ride_form_elm = INCLUDE bookmark_ride_form %]
+   [% INCLUDE form_line form_label = "Save as Ride Bookmark" form_control = bookmark_ride_form_elm %]
+   [% INCLUDE form_line form_label = "" form_control = '<input type="submit" name="add_new_ride" value="Add New Ride"/>' %]
+[% END # BLOCK new_ride_form %]
+
+[% ### SAVED RIDE FORM ###%]
+[% BLOCK saved_ride_form %]
+   [% bookmark_select_elm = INCLUDE  bookmark_select_form %]
+   [% INCLUDE form_line form_label = "Ride", form_control = bookmark_select_elm %]
+   [% date_form_elm     = INCLUDE calendar_form %]
+   [% time_form_elm     = INCLUDE time_form     %]
+   [% datetime_form_elm = date_form_elm _ ' ' _ time_form_elm %]
+   [% INCLUDE form_line form_label = "Date" form_control = datetime_form_elm %]
+   [% bike_select_form_elm = INCLUDE bike_select_form %]
+   [% INCLUDE form_line form_label = "Bike" form_control = bike_select_form_elm %]
+   [% elapsed_time_form_elm = INCLUDE elapsed_time_form %]
+   [% INCLUDE form_line form_label = "Elapsed Time" form_control = elapsed_time_form_elm %]
+   [% avg_speed_form_elm = INCLUDE avg_speed_form %]
+   [% INCLUDE form_line form_label = "Average Speed" form_control = avg_speed_form_elm %]
+   [% ride_notes_form_elm = INCLUDE ride_notes_form %]
+   [% INCLUDE form_line form_label = "Ride Notes" form_control = ride_notes_form_elm %]
+   [% INCLUDE form_line form_label = "" form_control = '<input type="submit" name="add_bookmarked_ride" value="Add Ride From Bookmark"/>' %]
+[% END # BLOCK saved_ride_form %]
+
+[% ### IMPORT RIDES FORM ###%]
+[% BLOCK import_rides_form %]
+
+[% END # BLOCK import_rides_form %]
+
+[% ### EDIT RIDE FORM ###%]
+[% BLOCK edit_ride %]
+  [% #
+     # NOT DOING:
+     # - setting check in bookmark_toggle if there's a ride_ref
+     # - setting selected ride ref correctly
+     #
+  %]
+  <form name="edit_ride" method="POST" action="/app/rides/update/[% ride_id %]">
+    <input type="hidden" name="player_id" value="[% player_id %]" />
+    <input type="hidden" name="ride_id" value="[% ride_id %]" />
+   [% ### THESE GET SELECTED / EDITED ANYWAY %]
+     <div style="width:200px;float:left">
+   [% date_form_elm     = INCLUDE calendar_form %]
+   [% time_form_elm     = INCLUDE time_form     %]
+   [% datetime_form_elm = date_form_elm _ ' ' _ time_form_elm %]
+   [% INCLUDE form_line form_label = "Date" form_control = datetime_form_elm %]
+   [% bike_select_form_elm = INCLUDE bike_select_form %]
+   [% INCLUDE form_line form_label = "Bike" form_control = bike_select_form_elm %]
+     </div>
+     <div style="width:200px;float:left">
+   [% elapsed_time_form_elm = INCLUDE elapsed_time_form %]
+   [% INCLUDE form_line form_label = "Elapsed Time" form_control = elapsed_time_form_elm %]
+   [% avg_speed_form_elm = INCLUDE avg_speed_form %]
+   [% INCLUDE form_line form_label = "Average Speed" form_control = avg_speed_form_elm %]
+   [% ride_notes_form_elm = INCLUDE ride_notes_form %]
+   [% INCLUDE form_line form_label = "Ride Notes" form_control = ride_notes_form_elm %]
+     </div>
+
+   [% ### TURN ON EITHER THE: %]
+   <div class="form_element">
+     <div class="form_label">Use Bookmark</div>
+     <div class="form_control"><input type="checkbox" id="bookmark_toggle" name="bookmark_toggle" value="1"[% selected_ride_ref ? ' checked="checked"' : '' %] /></div>
+     <div class="clear"></div>
+   </div>
+
+   [% ### BOOKMARK... %]
+   <div id="edit_bookmark">
+     [% bookmark_select_elm = INCLUDE bookmark_select_form %]
+     [% INCLUDE form_line form_label = "Ride", form_control = bookmark_select_elm %]
+   </div>
+  
+   [% ### ...OR CUSTOM EDIT %]
+   <div id="edit_ride_stats">
+     [% ride_type_form_elm = INCLUDE ride_type_form %]
+     [% INCLUDE form_line form_label = "Ride Type" form_control = ride_type_form_elm %]
+     [% distance_form_elm = INCLUDE distance_form %]
+     [% INCLUDE form_line form_label = "Distance (mi)"  form_control = distance_form_elm %]
+     [% climb_form_elm = INCLUDE climb_form %]
+     [% INCLUDE form_line form_label = "Climb (mi)"  form_control = climb_form_elm %]
+     [% ride_url_form_elm = INCLUDE ride_url_form %]
+     [% INCLUDE form_line form_label = "Ride URL" form_control = ride_url_form_elm %]
+   </div>
+   <div class="form_element">
+        <input type="submit" name="save_ride" value="Save Ride" onClick="tb_remove(); return true;"/>
+        <input type="button" name="cancel_edit" value="Cancel" onClick="tb_remove(); return false;"/>
+    </div>
+  </form>
+  <script language="javascript">
+    $(document).ready(function(){
+        if ( $('#bookmark_toggle').is(':checked') ) {
+           $('#edit_ride_stats').hide();
+        } else {
+           $('#edit_bookmark').hide();
+        }
+        $('#bookmark_toggle').click(function(){
+           if ( $(this).is(':checked') ) {
+              $('#edit_ride_stats').hide();
+              $('#edit_bookmark').show();
+           } else {
+              $('#edit_bookmark').hide();
+              $('#edit_ride_stats').show();
+           }
+        });
+    });
+  </script>
+[% END # BLOCK edit_ride %]
+
+[% #######################################
+   #                                     #
+   #                                     #
+   # COMPONENTS OF ADD/EDIT RIDE FORMS   #
+   #                                     #
+   #######################################
+   # %]
+
+[% BLOCK form_line %]
+  <div class="form_element">
+    <div class="form_label">[% form_label %]</div>
+    <div class="form_control">[% form_control %]</div>
+    <div class="clear"></div>
+  </div>
+[% END # BLOCK form_line %]
+
+[% BLOCK calendar_form %]
+  <input id="date_elm" name="date" value="[% selected_date || date.format(date.now "%F") %]" onclick="scwShow(this,event);" size="10" maxlength="10">
+[% END # BLOCK calendar_form %]
+
+[% BLOCK time_form %]
+  <input type="hidden" name="time" value="00:00:00" />
+[% END # BLOCK time_form %]
+
+[% BLOCK ride_type_form %]
+  [% FOREACH ride_type IN ride_types %]
+  <input type="radio" name="ride_type" value="[% ride_type %]"[% IF ride_type == selected_ride_type %] checked="checked"[% END # IF ride_type %] /> [% ride_type %] 
+  [% END # FOREACH ride_type IN tpl_cfg.ride_types %]
+[% END # BLOCK ride_type_form %]
+
+[% BLOCK distance_form %]
+  <input name="distance" value="[% distance || '0.00' %]" size="6" maxlength="6"/>
+[% END # BLOCK distance %]
+
+[% BLOCK climb_form %]
+  <input name="climb" value="[% climb || '0.00' %]" size="6" maxlength="6"/>
+[% END # BLOCK climb %]
+
+[% BLOCK elapsed_time_form %]
+  <input type="text" size="2" maxlength="3" name="elapsed_hours" value="[% elapsed_hours || '00' %]0" />:<input type="text" size="2" maxlength="2" name="elapsed_minutes" value="[% elapsed_minutes || '00' %]" />:<input type="text" size="2" maxlength="2" name="elapsed_seconds" value="[% elapsed_seconds || '00' %]" /> 
+[% END # BLOCK elapsed_time_form %]
+
+[% BLOCK avg_speed_form %]
+  <input type="text" size="4" maxlength="4" name="avg_speed" value="[% avg_speed || '00.0' %]" />
+[% END # BLOCK avg_speed_form %]
+
+[% BLOCK ride_url_form %]
+  <input type="text" size="20" maxlength="255" name="ride_url" value="[% ride_url ? ride_url : 'http://'%]" class="twofiftywide"/>
+[% END # BLOCK ride_url_form %]
+
+[% BLOCK ride_notes_form %]
+  <textarea rows="6" cols="30" name="ride_notes" class="twofiftywide">[% ride_notes %]</textarea>
+[% END # BLOCK ride_notes_form %]
+
+[% BLOCK bike_select_form %]
+  <select name="bike_id">
+    <option value=""> -- </option>
+  [% FOREACH bike IN bikes %]
+    <option value="[% bike.id %]"[% selected_bike == bike.id ? ' selected="selected"' : '' %]>[% bike.name %]</option>
+  [% END # FOREACH bike IN player.bikes %]
+  </select>
+[% END # BLOCK bike_select_form %]
+
+[% BLOCK bookmark_ride_form %]
+  <div style="float:left">
+    <input type="checkbox" name="save_ride_as_bookmark" id="bookmark_ride"/>
+    <div id="bookmark_details" style="display:none;">
+      <input type="text" size="20" maxlength="255" name="bookmark_title" id="bookmark_title" value="" class="twofiftywide"/><br/>
+      <textarea cols="20" rows="4" id="bookmark_desc" name="bookmark_desc" class="light-grey twofiftywide">[bookmark ride description]</textarea>
+    </div>
+  </div>
+[% END # BLOCK bookmark_ride_form %]
+
+[% BLOCK bookmark_select_form %]
+  [% # separate them into ride types %]
+  [% bookmarks_by_ride_type = {} %]
+  [% FOREACH ride_ref IN ride_refs %]
+    [% rt = ride_ref.ride_type %]
+    [% IF ! bookmarks_by_ride_type.$rt %][% bookmarks_by_ride_type.$rt = [] %][% END # IF ! bookmarks_by_ride_type... %]
+    [% bookmarks_by_ride_type.$rt.push( ride_ref ) %]
+  [% END # FOREACH ride_ref IN ride_refs %]
+
+  <!-- selected_ride_ref inside bookmark_select_form: [% selected_ride_ref %] -->
+  <select name="bookmark_id">
+  [% FOREACH rt IN ride_types %]
+    [% IF bookmarks_by_ride_type.$rt %]
+    <option value='' style="font-weight:bold">[% rt %] ride bookmarks: </option>
+      [% FOREACH ride_ref IN bookmarks_by_ride_type.$rt %]
+    <option value="[% ride_ref.id %]"[% selected_ride_ref == ride_ref.id ? ' selected="selected"' : '' %]>[% ride_ref.title %] ([% ride_ref.ride_type %] [% ride_ref.distance %] mi, [% ride_ref.climb %] ft)</option>
+      [% END # FOREACH ride_ref IN bookmarks_by_ride_type.$rt %]
+    [% END # IF bookmarks_by_ride_type.$rt %]
+  [% END # FOREACH rt in ride_types %]
+  </select>
+[% END # BLOCK bookmark_select_form %]

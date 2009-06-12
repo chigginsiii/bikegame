@@ -1,0 +1,56 @@
+/***
+ * tabbed UI
+ */
+.tabbed_content_menu
+{  
+  margin:auto;  
+  width: 700px;  
+  }  
+
+.tabbed_content_menu 
+{  
+  list-style: none;  
+  list-style-position: outside;  
+  }  
+
+.tabbed_content_menu li
+{  
+  font-weight: 700;  
+  color: #898989;  
+  background: #e9e6bf;   
+  height: 16px;
+
+  display: block;  
+  padding: 5px 10px 5px 10px;  
+  margin-right: 5px;  
+  border: 1px solid #e0e096;  
+
+  position: relative;  
+  float: left;  
+  bottom: 27px;
+  cursor: pointer;  
+}  
+
+.tabbed_content_menu li.active
+{  
+  background: #ffffc6;
+  border-bottom: 0;  
+  border-color:#e0e096;
+  color: #113344;
+  bottom: 26px;
+  }  
+
+.tabbed_content
+{  
+  margin: 21px auto 0px;  
+  background-color: #ffffc6;
+  border: 1px solid #e0e096;  
+  text-align: left;  
+  padding: 20px;
+  font-size: 11px;
+  vertical-align:text-bottom;  
+}  
+.tabbed_content form
+{ 
+  margin-top:12px;
+  }

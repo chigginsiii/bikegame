@@ -1,0 +1,33 @@
+$(document).ready(function(){
+  // hide the forms
+  $("div.details").hide();
+
+  $("div.loglistelm").each(function () {
+    var ride = this; 
+    // $(ride).find("a.edit_click").click(function(){
+        // ajax request the ride edit form, then put it in a thickbox window
+        
+        
+    // });      
+    $(ride).find("a.details_click").click(function(){
+      var ride_d = $(ride).find("div.details:first");
+      if ( $(ride_d).is(":hidden") ) {
+        $(ride_d).slideDown("slow");
+        $(this).find("img").attr("src","/images/icons/detail_up_15.png");
+        $(this).removeClass("control_inactive").addClass("control_active");
+      } else {
+        $(ride_d).slideUp("slow");
+        $(this).find("img").attr("src","/images/icons/detail_15.png");
+        $(this).removeClass("control_active").addClass("control_inactive");
+      }
+    });
+    $(ride).find("a.delete_click").click(function(){
+        if ( confirm("Really delete this ride?") ) {
+          window.location = $(this).attr('href');
+        }
+        return false;
+    });
+
+  });
+
+});

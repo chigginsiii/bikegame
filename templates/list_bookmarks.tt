@@ -1,0 +1,119 @@
+[% page_css = PROCESS page_css_block tabs = tabs %]
+[% page_js  = PROCESS add_ride_js tabs = tabs %]
+[% WRAPPER wrapper.tt
+        page_title  = 'Bookmarks'
+        link_to_css = [ '/css/tabbed_content.css', '/css/loglist_style.css' ]
+        include_css = page_css
+        include_js  = page_js
+        thickbox    = 1
+%]
+
+[% # tabs %]
+<ul class="tabbed_content_menu">
+[% FOREACH ride_type IN ride_types %]
+  <li id="[% ride_type %]"[% IF ride_type == ride_types.first %] class="active" [% END # ride_type == ride_types.first %]>[% ride_type %]</li>
+[% END # FOREACH ride_type IN ride_types %]
+</ul>
+
+[% # content %]
+[% FOREACH ride_type IN ride_types %]
+<div class="tabbed_content [% ride_type %]">
+  [% bookmarks = bookmarks_by_ridetype.$ride_type || [] %]
+  [% IF bookmarks.size > 0 %]
+  <div class="loglist">
+    [% FOREACH b IN bookmarks %]
+      [% INCLUDE bookmark_block bookmark = b %]
+    [% END # FOREACH b IN bookmarks %]
+  </div>
+  [% ELSE # IF bookmarks.size > 0 %]
+    <p>No bookmarks to list for type '[%ride_type%]'</p>
+  [% END # IF bookmarks.size > 0 %]
+</div>
+[% END # FOREACH ride_type IN ride_types %]
+[% END # WRAPPER %]
+
+[% BLOCK page_css_block %]
+[% FOREACH ride_type IN ride_types %]
+.tabbed_content.[% ride_type %]
+{
+  display: [% IF ride_type == ride_types.first %]block[% ELSE %]none[% END # IF ride_type... %];
+  }
+[% END # FOREACH ride_type... %]  
+[% END # BLOCK page_css_block %]
+
+[% BLOCK add_ride_js %]
+/***************************/
+//@Author: Adrian "yEnS" Mato Gondelle & Ivan Guardado Castro
+//@website: www.yensdesign.com
+//@email: yensamg@gmail.com
+//@license: Feel free to use it, but keep this credits please!
+/***************************/
+$(document).ready(function(){
+  // handles the tabs/content
+  $(".tabbed_content_menu > li").click(function(e){
+    switch(e.target.id) {
+[% FOREACH ride_type IN ride_types -%]
+      case "[% ride_type %]":
+      //change status & style menu
+  [% FOREACH menu_ride_type IN ride_types -%]
+    [% IF  ride_type == menu_ride_type -%] 
+      $("#[% ride_type %]").addClass("active");
+    [% ELSE -%]
+      $("#[% menu_ride_type %]").removeClass("active");
+    [% END # IF menu_ride_type... -%] 
+  [% END # FOREACH ride_type %]
+  [% FOREACH content_ride_type IN ride_types %]
+    [% IF  content_ride_type == ride_type %] 
+      $("div.[% ride_type %]").fadeIn();
+    [% ELSE %]
+      $("div.[% content_ride_type %]").css("display", "none");
+    [% END # IF content_ride_type %] 
+  [% END # FOREACH content_tide_type %]
+      break;
+[% END # FOREACH ride_type %]
+    }
+    //alert(e.target.id);
+    return false;
+  });
+  // hides the details of the bookmarks
+  $("div.lle_bookmark div.details").hide();
+  $("div.lle_bookmark div.edit_link").hide();
+  $("div.lle_bookmark div.title").hover(
+    function(e){
+      if ( ! $(this).hasClass("bookmark_title_on") ) {
+        $(this).addClass("bookmark_title_over");
+      }
+    },
+    function(e){
+      if ( $(this).hasClass("bookmark_title_over") ) {
+        $(this).removeClass("bookmark_title_over");
+      }
+    }
+  ); 
+  $("div.lle_bookmark div.title").click( function(e){
+    if ( $(this).siblings(".details").is(":hidden") ) {
+        $(this).addClass("bookmark_title_on");
+        $(this).siblings("div.edit_link").show("slow");
+        $(this).siblings(".details").show("slow");
+    } else {
+        $(this).removeClass("bookmark_title_on");
+        $(this).siblings("div.edit_link").hide("slow");
+        $(this).siblings(".details").hide("slow");
+    }
+  });
+
+});
+[% END # BLOCK add_ride_js %]
+[% BLOCK bookmark_block %]
+  <div class="loglistelm lle_bookmark">
+    <div class="title">[% b.title %]</div>
+    <div class="edit_link"><a href="/app/edit_bookmark/[% b.id %]?height=400&width=500&modal=true" class="thickbox">Edit</a></div>
+    <div class="clear"></div>
+    <div class="specs">Distance: [% b.distance %] miles, Climb: [% b.climb %] feet</div>
+
+    <div class="details">
+      <p><strong>URL:</strong> [% b.ride_url %]</p>
+      <p><strong>Description:</strong> [% b.description %]</p>
+    </div>
+  </div>
+[% END # BLOCK bookmark_block %]

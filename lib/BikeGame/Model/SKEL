@@ -1,0 +1,14 @@
+package BikeGame::Model::;
+use strict;
+use base qw(BikeGame::DBI);
+
+__PACKAGE__->table('');
+__PACKAGE__->columns(All   => qw(
+                                 
+                                )
+                    );
+__PACKAGE__->has_many( => 'BikeGame::Model::');
+__PACKAGE__->has_a(  => 'BikeGame::Model::' );
+
+# true
+1;

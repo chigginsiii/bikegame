@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>[% page_title || 'Too lazy to set a page title, huh?' %]</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">.
+    <link rel="stylesheet" href="/css/style.css" />
+    [% IF thickbox %]<link rel="stylesheet" href="[% app_cfg.thickbox_css_path %]" />[% END %]
+    [% IF link_to_css %]
+      [% FOREACH css IN link_to_css %]
+    <link rel="stylesheet" href="[% css %]"/>
+      [% END # FOREACH css %]
+    [% END # IF link_to_css %]
+    [% IF include_css %]
+    <style type="text/css">
+      [% FOREACH css IN include_css %]
+      [% css %]
+      [% END # FOREACH css IN include_css %]
+    </style>
+    [% END # IF include_css %]
+
+    <script type="text/javascript" src="[% app_cfg.jquery_path   %]"></script>
+    [% IF thickbox %]<script type="text/javascript" src="[% app_cfg.thickbox_path %]"></script>[% END %]
+    [% IF link_to_js %]
+      [% FOREACH script IN link_to_js %]
+    <script type="text/javascript" src="[% script %]"></script>
+      [% END # FOREACH script IN link_to_js %]
+    [% END # IF link_to_js %]
+    [% ### INCLUDED SCRIPTS MOVED TO FOOTER ### %]
+    [% UNLESS no_google %]
+      [% INCLUDE google_analytics.tt %]
+    [% END # IF ! no_google %]
+  </head>
+  <body>
+    <div class="main">
+
+      <div class="shadow_top">
+        <img src="/images/shadow_corner_upperleft.png" class="shadow_corner_ul">
+        <img src="/images/shadow_corner_upperright.png" class="shadow_corner_ur">
+      </div>
+      <div class="shadow_left"></div>
+      <div class="shadow_right"></div>
+
+      <div class="page_header">
+        <div id="site_menu">
+          [% site_menu = [ 'dashboard', 'ridelog', 'addride', 'news' ] %]
+          [% menu_img =  { dashboard => 'dashboard', ridelog => 'ride_log', addride => 'add_ride', news => 'news' } %]
+          [% menu_urls = { dashboard => '/app/dashboard', ridelog => '/app/rides', addride => '/app/rides/add', news => '/app/news' } %]
+          [% FOREACH section IN site_menu %]
+            [% IF section == selected_site_menu %]
+              <img src="/images/site_menu_buttons/[% menu_img.$section %]_on.png" id="site_menu_on"/>
+            [% ELSE # IF section == selected_site_menu %]
+              <a href="[% menu_urls.$section %]"><img src="/images/site_menu_buttons/[% menu_img.$section %]_off.png" border="0"></a>
+            [% END # IF section == selected_site_menu %]
+          [% END # FOREACH section IN site_menu %]
+        </div>
+        [% IF player_name %]
+          <div id="player_greeting"><span style="margin-right:10px;">Hello, [% player_name %]!</span> <a href="/app/logout">[logout]</a></div>
+        [% END # IF player_name %]
+      </div>
+      <div class="content">
+        [% content %]
+        [% # <div class="contentprop"></div> %]
+        <div class="clear"></div>
+      </div>
+      <div class="page_footer"><a xmlns:cc="http://creativecommons.org/ns#" href="http://bikegame.chiggins.com" property="cc:attributionName" rel="cc:attributionURL">THE BiKE GAME</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License</a>.</div>
+      <div class="shadow_bottom">
+        <img src="/images/shadow_corner_lowerleft.png" class="shadow_corner_ll">
+        <img src="/images/shadow_corner_lowerright.png" class="shadow_corner_lr">
+      </div>
+    </div>
+    [% IF include_js %]
+      [% FOREACH script IN include_js %]
+    <script type="text/javascript">
+      [% script %]
+    </script>
+      [% END # FOREACH script IN include_js %]
+    [% END # IF include_js %]
+    <script type="text/javascript">
+      $("#site_menu").find("a").hover(
+        function(){
+          var img = $(this).find("img");
+          var new_src = img.attr('src').replace('_off.png','_over.png');
+          img.attr('src',new_src);
+        },
+        function(){
+          var img = $(this).find("img");
+          var new_src = img.attr('src').replace('_over.png','_off.png');
+          img.attr('src',new_src);
+        }
+      );
+    </script>
+  </body>
+</html>

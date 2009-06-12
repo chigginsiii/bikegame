@@ -1,0 +1,19 @@
+[% WRAPPER wrapper.tt  page_title = 'Login' %]
+
+<div style="width:400px;margin-left:auto;margin-right:auto;margin-top:30px;">
+
+[% IF error %]
+<div width="400" style="text-align:center;font-size:14px;font-weight:bold;color:#C33">[% error %]</div>
+[% END # IF error %]
+
+<form name="login" method="POST" action="/app/login">
+  <table width="400">
+    <tr><td align="right">Player Name</td><td>&nbsp;&nbsp;&nbsp;</td><td><input type="text"     name="username" value="" /></td></tr>
+    <tr><td align="right">Password</td><td></td><td><input type="password" name="password" value="" /></td></tr>
+    <tr><td colspan="3" align="center"><input type="submit"   name="login"    value="Login" /></td></tr>
+  </table>
+</form>
+  <div style="text-align:center"><a href="/app/player/create_player" id="create_player">Create a new player</a></div>
+</div>
+
+[% END # WRAPPER wrapper.tt %]

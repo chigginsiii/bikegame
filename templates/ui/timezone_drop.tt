@@ -1,0 +1,6 @@
+[% IF ! select_name %][% select_name = 'timezone' %][% END # IF ! select_name %]
+<select name="[% select_name %]">
+  [% FOREACH tz in timezones %]
+  <option value="[% tz %]" [% IF tz == selected_tz %]selected="selected"[% END # IF %]>[% tz %]</option>
+  [% END # FOR tz in timezones %]
+</select>

@@ -1,0 +1,111 @@
+/*
+ * meters
+ */
+
+.dashboard
+{ 
+  position:relative;
+  top:-21px;
+  }
+
+.dashboard h1
+{ 
+  font-size:32px;
+  height:50px;
+  margin:20px 0px 10px 0px;
+  padding:17px 0 0 60px;
+  }
+
+.dashboard_meter
+{
+  width: 225px;
+  margin: 5px;
+  border: 1px solid #dfdfa9;
+  float:left;
+  padding: 4px;
+  background-color: #fafab6;
+  vertical-align:top;
+  font-size:11px;
+  line-height:14px;
+  color:#134;
+  }
+
+.dashboard_meter h3
+{ 
+  border-bottom: 1px #dfdfa9;
+  }
+
+/*** Goes in the dashboard top of each ride record ***/
+.dashboard_top
+{
+  position:relative;
+  top:20px;
+  margin-bottom:40px;
+  }
+
+.level_and_points
+{
+  color:#113344;
+  height: 35px;
+  margin-left:80px;
+  padding-left:75px;
+  position:relative;
+  top:13px;
+  }
+
+.points_meter
+{
+  width:150px;
+  background:transparent url(/images/pointsbg.png) no-repeat scroll 0 0px;
+  font-size:26px;
+  font-weight:bold;
+  }
+
+.level_meter
+{
+  background:transparent url(/images/levelmeterbg.png) no-repeat scroll 0px 0px;
+  width:580px;
+  }
+
+.level_meter_block
+{
+  float:left;
+  position:relative;
+  top:13px;
+  font-size:8px;
+  height:12px;
+  width:9px;
+  margin:0 1px;
+  padding:1px;
+  text-align:center;
+  }
+
+.level_meter_block.selected_level {
+  position:relative;
+  top:0px;
+  height:25px;
+  width: 20px;
+  font-size:22px;
+  font-weight:bold;
+  
+}
+
+/*
+ * stat meter internals
+ */
+
+.stat_label
+{ 
+  width:100px;
+  float:left;
+  padding-top:6px;
+  }
+.stat_value
+{ 
+  margin-left:100px;
+  text-align: right;
+  font-weight:bold;
+  vertical-align:text-bottom;
+  padding-top:6px;
+  font-size:12px;
+  }

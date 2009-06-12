@@ -1,0 +1,24 @@
+/***
+ * Form elements, could probably be generalized...
+ */
+div.form_element {
+  width: 600px;
+  margin: 0px auto 4px auto;
+  padding: 0px;
+}
+div.form_label {
+  float:left;
+  width: 160px;
+  margin-top:6px;
+  margin-right:12px;
+  text-align:right;
+  font-size: 12px;
+  font-weight: bold;
+}
+.form_control input, .form_control textarea, .form_control select 
+{ 
+  font-size: 12px;
+  padding: 2px;
+  border: 1px solid #f0f096;
+  background-color:#fdfde9;
+  }

@@ -1,0 +1,29 @@
+
+HAVE:
+-----------------
+
+- basic user creation
+- auth/authz
+- dashboard shows level, dist, climb for each record
+- ride log:
+  - all rides, sorted by date, paged
+  - can expand details on each ride
+  - can delete
+- add ride
+  - can add ride from scratch
+  - can save a ride as bookmark
+  - can add ride from bookmark
+- side notes
+  - can recalc a whole player or just one record
+  
+
+NEED:
+-----------------
+- edit user info/prefs
+- dpp to user prefs
+- format the ride details better, way better
+- edit ride in place, recalc rides from that record
+- app news: fixes, updates, news, etc. could be a WP blog even? or a forum?
+- bulk import: add a bunch of rides from a CSV
+- MORE METRICS!
+  - single ride bonuses

@@ -1,0 +1,105 @@
+[% new_ride_form   = INCLUDE forms/add_ride_forms.tt tab = 'new_ride' %]
+[% saved_ride_form = INCLUDE forms/add_ride_forms.tt tab = 'saved_ride' %]
+[% import_form     = INCLUDE forms/add_ride_forms.tt tab = 'import' %]
+
+[% tabs =[  { name => 'new_ride',   form => new_ride_form,   display => 'New Ride' },
+            { name => 'saved_ride', form => saved_ride_form, display => 'Ride from Bookmark' },
+            { name => 'import',     form => import_form,     display => 'Import Rides' }
+         ]
+%]
+[% page_css = PROCESS page_css_block tabs = tabs %]
+[% page_js  = PROCESS add_ride_js tabs = tabs %]
+[% WRAPPER wrapper.tt page_title  = "Add a Ride"
+                     link_to_css = [ '/css/tabbed_content.css', '/css/add_ride.css' ]
+                     include_css = page_css
+                     link_to_js  = [ '/js/scw.js' ]
+                     include_js  = page_js
+ %]
+
+<ul class="tabbed_content_menu">
+[% FOREACH tab IN tabs %]
+  <li id="[% tab.name %]"[% IF tab.name == tabs.first.name %] class="active" [% END # IF tab.name %]>[% tab.display %]</li>
+[% END # FOREACH tab %]
+</ul>
+[% FOREACH tab IN tabs %]
+<div class="tabbed_content [% tab.name %]">
+  [% tab.form %]
+</div>
+[% END # FOREACH tab %]
+
+[% END # WRAPPER wrapper.tt footer.tt %]
+
+[% BLOCK page_css_block %]
+[% FOREACH tab IN tabs %]
+.tabbed_content.[% tab.name %] h1
+{
+  }
+.tabbed_content.[% tab.name %]
+{
+  display: [% IF tab.name == tabs.first.name %]block[% ELSE %]none[% END # IF tab.name... %];
+  }
+[% END # FOREACH tab IN tabs %]  
+[% END # BLOCK page_css_block %]
+
+[% BLOCK add_ride_js %]
+/***************************/
+//@Author: Adrian "yEnS" Mato Gondelle & Ivan Guardado Castro
+//@website: www.yensdesign.com
+//@email: yensamg@gmail.com
+//@license: Feel free to use it, but keep this credits please!
+/***************************/
+$(document).ready(function(){
+  $(".tabbed_content_menu > li").click(function(e){
+    switch(e.target.id) {
+[% FOREACH tab IN tabs -%]
+      case "[% tab.name %]":
+      //change status & style menu
+  [% FOREACH menu_tab IN tabs -%]
+    [% IF menu_tab.name == tab.name -%] 
+      $("#[% menu_tab.name %]").addClass("active");
+    [% ELSE -%]
+      $("#[% menu_tab.name %]").removeClass("active");
+    [% END # IF menu_tab.name == tab.name -%] 
+  [% END # FOREACH menu_tab %]
+  [% FOREACH tab_content IN tabs %]
+    [% IF tab_content.name == tab.name %] 
+      $("div.[% tab_content.name %]").fadeIn();
+    [% ELSE %]
+      $("div.[% tab_content.name %]").css("display", "none");
+    [% END # IF tab_content.name == tab.name %] 
+  [% END # FOREACH tab_content.name IN tabs.name %]
+      break;
+[% END # FOREACH tab %]
+    }
+    //alert(e.target.id);
+    return false;
+  });
+
+  // bookmark title
+  $("#bookmark_ride").attr("checked", "");
+  $("#bookmark_ride").click(function(e){
+    if ( $(this).is(":checked") ) {
+      if ( ! $("#bookmark_title").val() ) {
+        var default_title = $("input[@name='ride_type']:checked").val() + ' ';
+        if ( default_title == 'undefined ' ) {
+          default_title = '';
+        }
+        default_title += 'ride on ';
+        default_title += $("input[@name='date']").val();
+        $("#bookmark_title").val( default_title );
+      }
+      $("#bookmark_details").css("display","");
+    } else {
+      $("#bookmark_details").css("display","none");
+    }
+  });
+  $("#bookmark_desc").focus(function(e){
+    var bm_desc = $("#bookmark_desc");
+    if ( bm_desc.hasClass("light-grey") ) {
+      bm_desc.removeClass("light-grey");
+      bm_desc.val('');
+    }
+  });
+
+});
+[% END # BLOCK add_ride_js %]

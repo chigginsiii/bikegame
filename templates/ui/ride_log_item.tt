@@ -1,0 +1,32 @@
+<div class="ride">
+  <div class="ride_type_icon"><img src="/images/icons/ridetype_[% ride_type %]_80.png"/></div></li>
+  <div class="stats"><table>
+    <tr>
+      <td colspan="3" class="date">[% ride_date %]</td>
+      <td colspan="2" class="controls">
+        <a href="javascript:void('0');" class="ride_details_click"> Details </a> | 
+        <a href="javascript:void('0');" class="ride_edit_click"> Edit </a>
+
+      <td>
+    </tr>
+    <tr>
+      <td class="label">Distance:</td><td class="value">[% distance %] mi.</td>
+      <td rowspan="3" width="10" align="center" valign="top">
+        <div style="width:1px;height:46px;background-color:#A77;margin-top:0px"></div>
+      </td>
+      <td class="label">Time:</td><td class="value">[% ride_time %]</td>
+
+    </tr><tr>
+      <td class="label">Climb:</td><td class="value">[% climb %] ft.</td>
+      <td class="label">Avg Spd:</td><td class="value">[% IF avg_speed %][% avg_speed %][% ELSE %]--.-- [% END # IF %] mph</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><div style="height:6px;"></div></td>
+      <td rowspan="2"></td>
+
+    </tr>
+  </table></div>
+
+  <div class="ride_details">ride notes go here, if there are any: [% IF ride_notes %]<p>[% ride_notes %]</p>[% END # ride notes %]</div>
+  <div class="ride_edit">Form to edit this ride's data, which should kick off a re-scoring/re-levelling and full list refresh</div>
+</div>

@@ -1,0 +1,5 @@
+#!/usr/bin/perl
+use strict;
+use BikeGame::Controller::Dispatch;
+
+BikeGame::Controller::Dispatch->dispatch();

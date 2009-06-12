@@ -1,0 +1,103 @@
+[% player_css = BLOCK %]
+#player_form {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#player_form div {
+  margin-bottom: 6px;
+}
+#player_form label {
+  font-family: arial, sans;
+  font-size: 10px;
+  color: #666;
+}
+#player_form input, #player_form select {
+  font-family: arial, sans;
+  font-size: 12px;
+  border: 1px solid #A0A0A0;
+  background-color: #DCDCDC;
+}
+#errors {
+  font-family: arial, sans;
+  font-size: 16px;
+  font-weight: bold;
+  color: #F00;
+  margin-bottom: 15px;
+}
+[% END # player_css %]
+[% WRAPPER wrapper.tt page_title = ( player.id ? 'Edit Player' : 'Create Player' ) include_css = player_css %]
+
+[% # form to add or edit a player %]
+<div id="player_form">
+  [% IF errors %]<div id="errors"><ul>[% FOREACH error IN errors %]<li>[% error %]</li>[% END # FOREACH error %]</ul></div>[% END # IF errors %]
+  <form name="player" id="player" action="/app/player/create_player" method="POST">
+
+    [% IF player_id %]
+    <!-- player id -->
+    <input type="hidden" name="player_id" value="[% player.id %]"/>
+    [% END # IF player_id %]
+
+    <!-- first col -->
+    <table width="500" border="0" cellpadding="0" cellspacing="0"><tr><td valign="top">
+
+      <!-- username -->
+      <div><label for="player_name">Player Name</label><br/>
+        <input type="text" size="15" maxlength="255" id="player_name" name="player_name" value="[% player.name %]">
+      </div>
+
+      <!-- first name, last name -->
+      <div style="float:left;margin-right:6px;"><label for="player_fname">First Name</label><br/><input type="text" size="15" maxlength="100" name="player_fname"  id="player_fname" value="[% player.first_name %]" /></div>
+      <div style="float:left"><label for="player_lname">Last Name</label><br/><input type="text" size="15" maxlength="100" name="player_lname" id="player_lname" value="[% player.last_name %]" /></div>
+      <div style="clear:both"></div>
+
+      <!-- password -->
+      [% IF player.id %]
+      <div><label for="player_password_old">Old Password</label><br/>
+        <input type="password" size="15" maxlength="255" name="player_password_old" id="player_password_old" value="" />
+      </div>
+      [% END # IF player.id %]
+      <div><label for="player_password_new">[% IF player.id %]New [% END # IF player.id %]Password</label><br/>
+        <input type="password" size="15" maxlength="255" name="player_password_new" id="player_password_new" value="" />
+      </div>
+      <div><label for="player_password_confirm">Confirm Password</label><br/>
+        <input type="password" size="15" maxlength="255" name="player_password_confirm" id="player_password_confirm" value="" />
+      </div>
+
+      <!-- email -->
+      <div><label for="player_email">Email</label><br/>
+        <input type="text" name="player_email" id="player_email" value="[% player.email %]" size="20" maxlength="255" />
+      </div>
+      <!-- timezone dropdown -->
+      <div><label for="player_timezone">Timezone</label><br/>
+        [% INCLUDE forms/components/timezone_dropdown.tt selected_tz = player.timezone select_name = 'player_timezone' select_id = 'player_timezone' %]
+      </div>
+
+    </td><td width="20"></td><td valign="top">
+
+      <!-- bikes -->
+      <div><label>Bikes</label></div>
+      [% bikes = player.bikes %]
+      [% FOREACH bike_num IN [ 0..5 ] %]
+      [% bike = bikes.$bike_num %]
+      <div id="bike_[% bike_num %]">
+        <input type="text" size="20" maxlength="255" name="player_bikes" value="[% bike ? bike.name : '' %]" />
+      </div>
+      [% END # FOREACH bike_num IN [ 0..5 ] %]
+
+      <!-- preferences -->
+      <div><label for="player_dpp">Dollars per point</label><br/>
+        <input type="text" size="2" maxlength="3" name="player_dpp" id="player_dpp" value="[% player.dollars_per_point %]" />
+      </div>
+    </td></tr>
+
+    <!-- submit it -->
+    <tr><td colspan="3" align="middle">
+      <input type="submit" name="[% player.id ? 'save' : 'create' %]_player" value="[% player.id ? 'Save Player' : 'Create Player' %]" />
+      <input type="submit" name="cancel"      value="Cancel" onclick="tb_remove(); return false;"/>
+    </td></tr></table>
+  </form>
+</div>
+
+[% END # WRAPPER wrapper.tt %]
+

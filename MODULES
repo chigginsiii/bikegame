@@ -1,0 +1,24 @@
+
+so far, here's the modules that are required to get this running (without deps, we'll let CPAN have at that)
+
+- Class::DBI......................................Runs the models
+  - Class::DBI::AbstractSearch....................WHERE clauses
+
+- CGI::Application................................Runs the controllers
+  - CGI::Application::Dispatch....................dispatches to the controllers
+  - CGI::Application::Plugin::TT..................Template Toolkit plugin
+    - Template....................................Template Toolkit, gotta have that
+  - CGI::Application::Plugin::DBH.................db handles for non-Class::DBI
+  - CGI::Application::Plugin::Session.............manage session info (CGI::Session)
+    - CGI::Session................................obviously
+  - CGI::Application::Plugin::Redirect............redirect run modes externally
+  - CGI::Application::Plugin::Forward.............redirect run modes internally
+
+WHAT ABOUT AUTHENTICATION? CGI::Application::Plugin::Authenticate is broken as a CPAN module
+  - Going to try using Authen::Simple::CDBI and see what happens...
+
+- Misc:
+  - DateTime......................................Rational way to store dates
+  - List::Util, List::MoreUtils...................LOVE these
+  - POSIX.........................................not sure what i'm using this for?
+  - Carp..........................................DIE DIE DIE!

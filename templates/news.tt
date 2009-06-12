@@ -1,0 +1,174 @@
+[% WRAPPER wrapper.tt page_title = 'News' selected_site_menu = 'news' %]
+<div style="width:700px;margin:0px auto;">
+<h1>News!</h1>
+
+<h3>1/18/2009</h3>
+
+<p>I am giddy with excitement. I've never in my life been so happy to see any 8-year period of time come to an end.</p>
+
+<p>Anyway. Several bug fixes have been made in the scoring/leveling process, so if you've been advancing too quickly, that's fixed. Also, scoring and leveling now shows up in the ride log in the right spot. They'll be in the righter spot once I get time pickers into the date/time thing.</p>
+
+<p>I just found out that MapMyRide's elevation stats can't be trusted unless you get the raw files, do something with them in excel or OpenOffice or something like that. Kinda sucks, but a lot of my rides are from bookmarks, so one change and everything should just recalc automatically. Which is to say, once Edit Bookmark has been implemented, it will be easy to recalc everything at once without having to manually redo all those commuting rides.</p>
+
+<h3>1/14/2009</h3>
+
+<p>More fixed things, a couple more dashboard bits, what else...</p>
+
+<p>The add-ride cycle needs to go something like this:</p>
+<ul>
+  <li>Ride is added via ajax form submission</li>
+  <li>add-ride handler returns messages: event and message (eg: score message with points and metric, level up message with level and points)</li>
+  <li>page parses response and loads the notices into a modal thickbox window</li>
+  <li>at the end, redirect to the ride log page and highlight</li>
+  <li></li>
+</ul>
+
+<p>the ride log page also needs to be able to display scoring and levelling events. Also, rides need a goddam time picker. Oh, and it looks like the ride edit form needs the ride notes back.</p>
+
+<h3>1/9/2009</h3>
+
+<p>Some things that are fixed:</p>
+
+<ul>
+  <li>separated the Description field of a Ride Bookmark from the particular ride's Ride Notes. So now your description can be about the route, and your notes can be about all the wildflowers you were pickin' when you were arrested. Also, used jQuery to put in a greyed out sample description in the form, and to get ride of it when you go there to put your thing in. jQuery continues to rock my world.</li>
+  <li>fixed a bug with elapsed time, where the db could only hold 8 chars (i had formatted it to 00:00:00 before, then decided to go way out and do 000:00:00), and the seconds were getting cut off. That's fixed.</li>
+</ul>
+
+<p>So, next up: user prefs, then edit list for ride bookmarks, perhaps from the user's prefs. hmmmmm...</p>
+
+<h3>1/8/2009</h3>
+
+<p>I had a thought coming in. When entering a ride, or viewing one, if there's a ride note in the ride bookmark, it overrides the actual ride note. But really, you want a ride description for a bookmark, whereas you want to record neat things about a particular ride when you take it. This is important, more on that in a sec. So, I think a ride bookmark needs a title and optional description, and the ride notes needs to stay with the ride.</p>
+
+<p>Why's this important? Well, I figure if you've got a ride note, and some info about the ride, then you've already got the data and elements needed to format a ride log not just as a list of your rides, but as a diary as well. Like this thing could have several RSS feeds, and one of the could be a ride-diary kinda thing that just has your observatiosn about that day's ride: 'way too tired to push it today', 'helped an old lady patch a tube. okay she helped me.', 'saw a tortoise on the side fo the road, it was upside down, I didn't help it. What's a tortoise?' That kinda thing.</p>
+
+<p>So let's see, if we were to put up a list of the next 3 things that need to happen:</p>
+
+<ol>
+  <li>create a ride desc for ride bookmarks, keep ride notes with the particular rides. UI updates.</li>
+  <li>user prefs, cash totals don't meean anything until players can adjust their DPP</li>
+  <li>put cash totals on dashboard records</li>
+</ol>
+
+<p>The next 3 things on the horizon to think about:</p>
+
+<ol>
+  <li>there needs to be an "all" tab on the dashboard i think, but i'm not sure what to put on it. record summaries where they exist, for sure, total cash and points...</li>
+  <li>the header graphic / site menu needs to be cleaned up, made coherent, styles need defining... in fact, a style guide for the site (fonts, colors, etc) would probably be good</li>
+  <li>prizes and single ride scores</li>
+</ol>
+
+<h3>1/7/2009</h3>
+<p>Editing rides works well as far as i can tell. Any edits, for now, trigger a full recalc on metrics/points/levels, so changes that affect the scoring history like dates, ride types, distance on a particular ride for example, will simply retally the whole damn thing. If it gets to be a problem when ride histories get long, it can be made smarter, but keeping the metrics and ride/score/level logs should be all the caching this needs for a while.</p>
+
+<p>Now that it's storing rides pretty reliably, and they can be edited and deleted, this is much more functional.</p>
+
+<p>Also: edit ride forms are now correctly detecting whether or not a ride comes from a bookmar or not, the bookmark selector groups the bookmarks by ride type (fahncy, no?), and i dprettied up the ride detail stuff in the ride list a bit. Enjoy.</p>
+
+<p>oh, and... <span style="font-size:24px">ATTN:</span> I have the more static assets of the site caching pretty aggressively, images and css and things. I'll back those off a bit since they're all still a bubbling broth of in progress, but if you hit a page that looks wildly out of wack, it might be cached css pages, try shift-reloading. I might be hacking on css stuff, but it may just be cached.</p>
+
+<p>Three things I can think of right off the bat that are essential going forward:</p>
+
+<ul>
+  <li><strong>Single-ride scoring metrics</strong></li>
+  <li><strong>Cash Money and the prize thing</strong></li>
+  <li><strong>User edit/prefs</strong></li>
+</ul>
+
+<p>User edit/prefs is probably the most important one, but it's the most straightforward and the least sexy to talk about, so that's that. It's on the list.</p>
+
+<p>In addition to accumulated points, players ought to be able to score points on single rides, this being the analog equivalent to an encounter in many scoring systems. I put a couple scoring tables up on a spreadsheet to get an idea of what it would look like. They came up looking something like:</p>
+
+<strong>Single Ride Scoring</strong> (Ride Type: <em>Road</em>, Levels 1-6, 7-14, 15+)
+<table border="1" bordercolor="#000000" style="border-collapse:collapse">
+  <tr>
+    <td><strong>Distance</strong></td> 
+    <td><strong>(no speed)</strong></td> 
+    <td><strong>Avg Spd &gt; 12</strong></td> 
+    <td><strong>Avg Spd &gt; 18</strong></td> 
+    <td><strong>Avg Spd &gt; 24</strong></td>
+  </tr>
+  <tr align="center"><td> &gt; 20</td><td> - </td><td> 1|-|- </td><td> 2|1|- </td><td> 3|2|1 </td></tr>
+  <tr align="center"><td> &gt; 40</td><td> 1|-|- </td><td> 2|1|- </td><td> 3|2|1 </td><td> 4|3|2 </td></tr>
+  <tr align="center"><td> &gt; 60</td><td> 2|1|- </td><td> 3|2|1 </td><td> 4|3|2 </td><td> 5|4|3 </td></tr>
+  <tr align="center"><td> &gt; 80</td><td> 3|2|1 </td><td> 4|3|2 </td><td> 5|4|3 </td><td> 6|5|4 </td></tr>
+  <tr align="center"><td> 100+ </td><td> 4|3|2 </td><td> 5|4|3 </td><td> 6|5|4 </td><td> 7|6|5 </td></tr>
+</table>
+
+<p>So if you come home and check your cyclometer and it says you've been out on the road doin' 18.4 mph for a forty mile ride, you should score somethin' for the effort, ya know Dali? But there is a difference between how big of a deal it is, contingent on how far up the level scale you are, right? So if you're levelling up initially, you should get a big-ass 3 pt. trophy for it. Hey, you worth it. And then, later, when you're bad-assedness is more solid and mature, it's still worth a point, it's just not as big a deal.</p>
+
+<p>This should be easy enough to implement, the way the score tracking is set up, each ride record has a series of metric trackers, and adding a ride to the record passes the ride down the chain of metric trackers. Some keep accumulated data and generate scores when that data passes some threshold, but an achievement-based metric that simply checks against criteria and scores according to the player's level is just as easy. The implementation is fairly simple, but the content of the criteria table is interesting, and I'd love to get some input on that.</p>
+
+<p>The above table works pretty well for road, I think, though the numbers probably need adjustment. But for mountain biking avg speed isn't necessarily as significant a metric. Perhaps there the way to score it is on combinations of distance and climb istead of speed. And that got me thinking of a cargo/camping ride type, where distance and weight are the key factors, but weight would require adding a field to the ride attributes... which isn't that big of a deal either now that I think about it, and could be hidden on ride record types where it's not a scoring factor. More to think about.</p>
+
+<p>Anyway, if anyone's reading this that's geeky enough about these kinds of things to make reccomendations on what these scoring tables should look like, instead of what they might look like, please pipe up here or on <a href="http://ijar.chiggins.com">the blawg</a> somewhar. And whatever scoring system is put into place, everyone's records will be built from their ride history fresh, so no one's losing any points right now because I haven't put the scoring system in yet.</p>
+
+<p>And then there's the Cash/Prize Manager. The cash manager keeps track of a dynamic column that comes from your dollars-per-point preference (once that's implemented, it's comin'), and your total points from all ride records, and another column that tracks payouts for prizes. So if you change your mind on your budget, and decide that you're puttin' in too many miles to afford it, you can lower your DPP. But if you've spent more than that, it will come up negative, or should.</p>
+
+<p>The prizes will simply be an entry and list of things on your wishlist, with fields for an image, link, name, and price. If you were to use BiKEGAME! to budget your bike bling, you could then mark it as bought as you won enough cash to afford it, and it would come off your total.</p>
+
+<p>That's enough though for tonight, good night.</p>
+
+<h3>1/6/2009</h3>
+<p>Rather than get to the important stuff discussed last night, I got fed up with the top of the dashboard display, so that's prettier now. Also: if one does not set one's margins and padding, then one's margins and padding will be set for them. Everyone has a choice. Also again: JQuery has me not hating javascript at all. Neat.</p>
+
+<h3>1/6/2009 (1am)</h3>
+<p>The good news is: the basic elements of the edit-ride stuff is in place. You can actually click on the edit button and the form comes up with the right info.</p>
+<p>bad news is that it's horribly styled, doesn't actually submit to anything useful yet, the date cal needs to be hooked up, i still don't have a decent time picker, and I'm going to bed. G'night.</p>
+
+<h3>1/5/2009</h3>
+
+<p>First ride of '09's in the books, and I entered it, and forgot to set the date for the 4th. So the first two things on deck for fixing are:</p>
+<ol><li>editable rides in the ride list</li><li>import rides</li></ol>
+<p><i>import rides</i> i gotta implement just because it's the last dummy page under any tabs. i can also implement ride types mostly through configs, and was thinking about setting one up for 'cargo' to join 'road' and 'mtb', and then though maybe 'commute' deserves its own too, since avg speed is a little different than nice long stretches of road miles. I know that no matter what my avg speed by the time I start approaching downtown, the final average is always around 12.6 to 13.3 from the lights, signs, and areas deserving more caution. It's like those force-fields in Dune, they can be penetrated, but only by slow things. Any other ideas about what kinds of ride records there ought to be besides 'road' and 'mtb'? I'll post the config fields comprising a ride record in a bit and if you have any ideas about it, feel free to email them to me.</p>
+<p>Boy, given the potential for player feedback and contribution, maybe this section oughta be a blog or discussion board. WP would be easy...</p>
+
+<h3>1/2/2009</h3>
+<p>Howdy folks, and welcome to <em>BiKE GAME!</em>... or <em>BiKE QU3ST!</em>... or something like that. I'm totally up for hearing better suggestions than <em>BiKE GAME!</em></p>
+<p>This is just a spot to let you know about things that are working or aren't. The idea is that this won't be necessary once this has matured some, or that it'll be replaced by something fuller featured like its own blog or at least a forum or something like that, so this'll be more like a changelog.</p>
+<p>If you've spotted a bug, or have a great idea for a feature or a better way to do something, or know just the metric you want to see on the dashboard, or anything at all, fire off an email to bikegame AaAaAaAaAT! chiggins DaAaAaAaAaAHT! Cee. Oh. Em. Think that's enough to fool the crawlers?</p>
+<p>So here's the list I'm keeping on my side of things that need to work, or need to work better:</p>
+
+<pre>
+
+HAVE:
+-----------------
+
+- basic user creation
+- auth/authz
+- dashboard shows level, dist, climb for each record
+- ride log:
+  - all rides, sorted by date, paged
+  - can expand details on each ride
+  - can delete
+  - edit ride in place, recalc ride scores/levels from that record
+- add ride
+  - can add ride from scratch
+  - can save a ride as bookmark
+  - can add ride from bookmark
+- side notes
+  - can recalc a whole player or just one record
+
+
+NEED:
+-----------------
+- edit user info/prefs
+- delete my account (someone's guaranteed to ask for this one in the first week)
+- active dollars-per-point in user prefs
+- format the ride details better, way better
+
+- saved ride list / editing / level-recalc
+- app news: fixes, updates, news, etc.
+            (this sort of counts, but it's not a long term solution)
+  - discussion: forum? wiki?
+  - bugtraq?
+- bulk import: add a bunch of rides from a CSV
+- MORE METRICS!
+  - single ride bonuses
+  - some with GD graphing support
+- an admin section that's not just emacs and a mysql commandline
+- a help/FAQ/rules section of the menu
+  - right off the bat, need to post the scoring/levelling tables
+</pre>
+</div>
+[% END # WRAPPER wrapper.tt %]

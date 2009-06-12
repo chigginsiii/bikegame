@@ -1,0 +1,286 @@
+/*
+ * COMMON TO ALL LIST PAGES
+ */
+
+.pager
+{ 
+  width:400px;
+  margin-left: auto;
+  margin-right: auto;
+  position:relative;
+  text-align: center;
+
+  font-size: 21px;
+  font-weight:bold;
+  color: #000;
+  vertical-align: middle;
+  }
+
+.pager a, .pager a:visited
+{ 
+  font-size: 14px;
+  font-weight:bold;
+  color: #a0a080;
+  vertical-align: middle;
+ }
+.pager a:hover, .pager a:active
+{ 
+  font-size: 14px;
+  font-weight:bold;
+  color: #F33;
+  vertical-align: middle;
+ }
+
+
+.loglist 
+{ 
+  width: 424px;
+  margin-bottom: 10px;
+  margin-left:auto;
+  margin-right:auto;
+  }
+
+.loglistelm
+{ 
+  width: 350px;
+  font-family: Arial, Helvetica, Trebuchet, San Serf;
+  font-size: 12px;
+  margin: 5px auto 5px auto;
+  padding:5px;
+  position:relative;
+  }
+
+.loglist_day
+{ 
+  font-weight:bold;
+  font-size: 14px;
+  text-decoration: underline;
+  margin-top:20px;
+  }
+
+.icon
+{ 
+  width:  50px;
+  height: 50px;
+  margin: 5px 10px 0px 0px;
+  float:left;
+  }
+
+.points 
+{ 
+          
+  }
+
+.loglistelm .stats
+{ 
+  margin: 3px 0px 0px 10px;
+  height:60px;
+  }
+
+.loglistelm .stats table
+{ 
+  vertical-align: bottom;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  }
+
+.loglistelm .stats .date
+{ 
+  font-weight:bold;
+  font-size: 14px;
+  padding-bottom: 6px;
+  }
+
+.loglistelm .stats .scoredesc
+{ 
+  font-size:14px;
+  line-height: 18px;
+  }
+
+.controls
+{
+  position:absolute;
+  right:6px;
+  top:6px;
+  }
+
+.control_inactive
+{ 
+  background-color: #FCFC88;
+ }
+.control_active
+{ 
+  background-color: #0D0;
+  }
+.controls img
+{ 
+  margin:0px;
+  padding:0px;
+  border:none;
+ }
+
+.label
+{ 
+  text-align: right;
+  vertical-align: bottom;
+  margin-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  }                          
+
+.value
+{ 
+  text-align: left;
+  vertical-align: bottom;
+  padding-left: 6px;
+  padding-right: 10px;
+  font-size: 12px;
+  }
+
+.details
+{
+  padding:12px;
+  clear:left;
+
+  }
+.details p
+{ 
+  margin: 3px 0px 6px 0px;
+  }
+
+/*
+ * SPECIFIC TO PARTICULAR LIST PAGES
+ */
+
+/* Rides log list */
+.ll_ride
+{ 
+  }
+      
+/* Rides log list element */
+.lle_ride { 
+  background-color:#FFFFC9;
+  border:2px solid #ECEC96;
+}
+.lle_ride.highlight { 
+  border: 2px solid #f0d000;
+  background-color:#FFFF99;
+ }
+.lle_ride .icon_mtb
+{ 
+  background-color: #efa808;
+ }
+.lle_ride .icon_road
+{ 
+  background-color: #80b8e0;
+ }
+
+/*
+ * SCORE ELM
+ */
+.score_icon
+{ 
+  height: 50px;
+  width:  50px;
+  margin: 0px 10px 0px 0px;
+  float:left;
+  }
+
+.points_icon
+{ 
+  height: 50px;
+  width:  50px;
+  margin: 0px 10px 0px 0px;
+  float:left;
+  }
+
+.lle_score
+{ 
+  background-color:#FFFFC9;
+  border:2px solid #ECEC96;
+  height: 50px;
+  width: 350px;
+  }
+.lle_score .icon_mtb
+{ 
+  background-color: #efa808;
+ }
+.lle_score .icon_road
+{ 
+  background-color: #80b8e0;
+ }
+
+/*
+ * Level Elm
+ */
+.level_icon
+{ 
+  height: 50px;
+  width:  50px;
+  margin: 0px 10px 0px 0px;
+  float:left;
+  }
+.lle_level
+{ 
+  background-color:#FFFFC9;
+  border:2px solid #ECEC96;
+  height: 50px;
+  width: 350px;
+  }
+.lle_level .icon_mtb
+{ 
+  background-color: #efa808;
+ }
+.lle_level .icon_road
+{ 
+  background-color: #80b8e0;
+ }
+
+/*
+ * ride bookmark elms
+ */
+.lle_bookmark
+{ 
+  background-color:#FAFAB6;
+  border:2px solid #ECEC96;
+  width: 350px;
+  color:#113344;
+  font-size:11px;
+  line-height:14px;
+  position:relative;
+  }
+.lle_bookmark div.title
+{ 
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 18px;
+  margin-right: 70px;
+  }
+.lle_bookmark div.edit_link
+{ 
+  font-size:12px;
+  font-weight:bold;
+  position:absolute;
+  right:0px;
+  top:6px;
+  padding-right: 6px;
+  text-align:right;
+  width:60px;
+  }
+
+.lle_bookmark div.specs
+{ 
+  font-size: 11px;
+  color:#567;
+  font-weight: bold;
+  }
+
+/* these are utility classes to get the title to correspond with the detail show/hide */
+.bookmark_title_over
+{ 
+  color: #F00;
+  }
+.bookmark_title_on
+{ 
+  color: #00F;
+  }

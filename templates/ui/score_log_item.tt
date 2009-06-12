@@ -1,0 +1,13 @@
+<div class="loglist score">
+[% FOREACH score IN scores %]
+  <div class="loglistelm">
+    <div class="icon"><img src="/images/icons/ridetype_[% ride_type %]_80.png"/></div>
+    <div class="icon"><img src="/images/icons/metric_[% metric_type %]_80.png"/></div>
+    <div class="icon"><img src="/images/icons/point_[% num_points %]_80.png"/></div>
+    <div class="stats"><table>
+      <tr><td class="date">[% score_date %]</td></tr>
+      <tr><td class="scoredesc">[% score_message %]</td></tr>
+    </table></div>
+  </div>
+[% END # FOREACH %]
+</div>

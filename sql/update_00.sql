@@ -1,0 +1,9 @@
+use bikegame;
+
+ALTER TABLE ride ADD COLUMN bike INT UNSIGNED;
+
+CREATE TABLE version (
+  version_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  version VARCHAR(50)
+);
+INSERT INTO version VALUES (NULL,'0.02');

@@ -1,0 +1,88 @@
+[% ride_list_js =  INCLUDE ride_list_js.tt %]
+[% WRAPPER wrapper.tt page_title = 'Ride History' link_to_js = ['/js/scw.js'] include_js = [ride_list_js] link_to_css =['/css/loglist_style.css', '/css/edit_ride.css'] thickbox = 1 %]
+
+[% IF  pager.total_entries > 0 %]
+[% pager_display = PROCESS pager %]
+
+[% pager_display %]
+[% FOREACH event_date IN events_by_date.keys.nsort.reverse %]
+   [% events_this_date = events_by_date.$event_date %]
+   <div class="loglist ll_ride">
+     <div class="loglist_day">[% events_this_date.display_date %]</div>
+     [% FOREACH event IN events_this_date.events %]
+       [% SWITCH event.event_type %]
+         [% CASE 'ride' %]
+           [% INCLUDE ride_elm ride = event %]
+         [% CASE 'score' %]
+           [% INCLUDE score_elm score = event %]
+         [% CASE 'level' %]
+           [% INCLUDE level_elm level = event %]
+       [% END # SWITCH event.event_type %]
+     [% END # FOREACH event IN events_this_date.events %]
+  </div>
+[% END # FOREACH ride_date IN rides_by_date.keys.nsort.reverse %]
+[% pager_display %]
+
+[% ELSE # IF rides_by_date.keys %]
+  <h1 style="width:400px;margin:auto">No rides to list, <a href="/app/rides/add">add a ride?</a></h1>
+[% END # IF rides_by_date.keys %]
+
+[% END # WRAPPER wrapper.tt page_title = 'Ride Log' include_js = [ride_list_js] link_to_css =['/css/loglist_style.css']%]
+[% BLOCK pager %]
+<div class="pager">
+[% IF pager.first_page != pager.last_page %]
+  [% FOREACH num IN [pager.first_page..pager.last_page] %]
+    [% IF num == pager.current_page %] [% num %] [% ELSE %] <a href="/app/rides/page/[% num %]">[% num %]</a> [% END # IF num == pager.current_page %]
+  [% END # FOREACH num IN [pager.first_page..pager.last_page] %]
+[% END # IF pager.first_page ne pager.last_page %]
+</div>
+[% END # BLOCK pager %]
+
+[% BLOCK ride_elm %]
+<div class="loglistelm lle_ride[% IF highlighted_ride == ride.ride_id %] highlight[% END # IF highlighted_ride %]">
+  <div class="icon icon_[% ride.ride_type %]"><img src="/images/icons/ridetype_[% ride.ride_type %]_50.png"/></div>
+  <div class="stats"><table>
+    <tr>
+      <td colspan="4">
+        <div class="date">[% ride.ride_date %]</div>
+        <div class="controls">
+          <a href="javascript:void('0');" class="details_click control_inactive"><img src="/images/icons/detail_15.png" border="0"/></a>
+          <a href="/app/rides/edit/[% ride.ride_id %]?height=400&width=500&modal=true" class="thickbox control_inactive"><img src="/images/icons/edit_15.png" border="0"/></a>
+          <a href="/app/rides/remove/[% ride.ride_id %]/[% pager.current_page %]" class="delete_click control_inactive"><img src="/images/icons/delete_15.png" border="0"/></a>
+        </div>
+      <td>
+    </tr><tr>
+      <td class="label">Distance:</td><td class="value">[% ride.distance %] mi.</td>
+      <td class="label">Time:</td><td class="value">[% IF ride.ride_time %][% ride.ride_time %][% ELSE %]--:--:--[% END # IF ride.ride_time %]</td>
+    </tr><tr>
+      <td class="label">Climb:</td><td class="value">[% ride.climb %] ft.</td>
+      <td class="label">Avg Spd:</td><td class="value">[% IF ride.avg_speed %][% ride.avg_speed %][% ELSE %]--.--[% END # IF %] mph</td>
+    </tr>
+  </table></div>
+  <div class="details">
+    [% IF ride.ride_ref_title %]<p><strong>From Bookmark:</strong> [% ride.ride_ref_title %]</p>[% END # IF ride.ride_ref_title %]
+    [% IF ride.ride_ref_desc %]<p>[% ride.ride_ref_desc %]</p>[% END # IF ride.ride_ref_desc %]
+    [% IF ride.bike %]<p><strong>Bike:</strong> [% ride.bike %]</p>[% END # IF ride.bike %]
+    [% IF ride.ride_url %]<p><strong>Link: </strong><a href="[% ride.ride_url %]" target="_blank">[% ride.ride_url %]</a></p>[% END # ride.ride_url %]
+    [% IF ride.ride_notes %]<h4>Ride Notes:</h4><p>[% ride.ride_notes %]</p>[% END # ride.ride notes %]
+  </div>
+</div>
+[% END # BLOCK ride_elm %]
+[% BLOCK score_elm %]
+<div class="loglistelm lle_score">
+  <div class="score_icon icon_[% score.ride_type %]"><img src="/images/icons/metric_[% score.metric %]_50.png"/></div>
+  <div class="points_icon icon_[% score.ride_type %]"><img src="/images/icons/points/[% score.points %]_50.png"/></div>
+  <h3>Score!</h3>
+  <div><strong>[% score.ride_type %] [% score.metric %]</strong></div>
+  <div class="message">[% score.message %]</div>
+</div>
+[% END # BLOCK score_elm %]
+[% BLOCK level_elm %]
+[% IF level.level_number != 1 %]
+<div class="loglistelm lle_level">
+  <div class="level_icon icon_[% level.ride_type %]"><img src="/images/icons/levelup_50.png"/></div>
+  <h3>Level Up!<h3>
+  <div>[% level.ride_type %] Level [% level.level_number %]</div>
+</div>
+[% END # IF level.level_number != 1 %]
+[% END # BLOCK score_elm %]

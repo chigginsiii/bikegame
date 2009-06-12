@@ -1,0 +1,98 @@
+[% inc_css = INCLUDE dashboard_css %]
+[% inc_js  = INCLUDE dashboard_js  %]
+[% WRAPPER wrapper.tt include_css = inc_css
+                      include_js = inc_js
+                      link_to_css = [ '/css/tabbed_content.css', '/css/dashboard.css' ]
+                      page_title = 'Dashboard'
+%]
+  [% # build the tabs %]
+  <ul class="tabbed_content_menu">
+  [% FOREACH ride_type IN ride_types %]
+    <li id="[% ride_type %]"[% IF ride_type == selected_ride_type %] class="active"[% END # IF selected... %]>[% ride_type %]</li>
+  [% END # FOREACH ride_type IN ride_types %]
+  </ul>
+  <span class="clear"></span>
+
+  [% # build the boxes %]
+  [% FOREACH ride_type IN ride_types %]
+  <div class="tabbed_content [% ride_type %]">
+    <div class="dashboard">
+      <div class="dashboard_top">
+        <div class="ride_icon_[% ride_type %]"><a href="/app/rides/add/[% ride_type %]" alt="add ride" title="Add a Ride"><img src="/images/icons/ridetype_[% ride_type %]_80.png" border="0"></a></div>
+        <div class="level_and_points points_meter">[% ride_records.$ride_type.total_points %]</div>
+        <div class="level_and_points level_meter">[% INCLUDE level_meter selected_level =  ride_records.$ride_type.current_level %]</div>
+      </div>
+   [% FOREACH meter IN ride_records.$ride_type.meters %]
+      [% meter %]
+      [% UNLESS loop.count % 3 %]<div class="clear"></div>[% END # UNLESS loop.count %]
+    [% END # FOREACH meter IN meters %]
+      <div class="clear"></div>
+    </div>
+  </div>
+  [% END # FOREACH ride_type IN ride_types %]
+[% END # WRAPPER wrapper.tt %]
+
+
+[%
+   # 
+   # This contains the tabbed content CSS specific to the dashboard's content divs
+   #
+%]
+[% BLOCK dashboard_css %]
+  [% FOREACH ride_type IN ride_types %]
+.ride_icon_[% ride_type %]
+{
+  position:absolute;
+  width:80px;
+  height:80px;
+  background-color: rgb([% ride_records.$ride_type.level_bgcolor %]);
+  }
+
+.tabbed_content.[% ride_type %]
+{
+  display: [% IF ride_type == selected_ride_type %]block[% ELSE %]none[% END # IF ride_type... %];
+  }
+[% END # FOREACH ride_type IN ride_types %]  
+[% END # BLOCK dashboard_css %]
+
+[% BLOCK dashboard_js %]
+/***************************/
+//@Author: Adrian "yEnS" Mato Gondelle & Ivan Guardado Castro
+//@website: www.yensdesign.com
+//@email: yensamg@gmail.com
+//@license: Feel free to use it, but keep this credits please!
+/***************************/
+$(document).ready(function(){
+  $(".tabbed_content_menu > li").click(function(e){
+    switch(e.target.id) {
+[% FOREACH ride_type IN ride_types -%]
+      case "[% ride_type %]":
+      //change status & style menu
+  [% FOREACH menu_tab IN ride_types -%]
+    [% IF menu_tab == ride_type -%] 
+      $("#[% menu_tab %]").addClass("active");
+    [% ELSE -%]
+      $("#[% menu_tab %]").removeClass("active");
+    [% END # IF menu_tab == ride_type -%] 
+  [% END # FOREACH ride_class IN ride_types %]
+  [% FOREACH record_content IN ride_types %]
+    [% IF record_content == ride_type %] 
+      $("div.[% record_content %]").fadeIn();
+    [% ELSE %]
+      $("div.[% record_content %]").css("display", "none");
+    [% END # IF record_content == ride_type %] 
+  [% END # FOREACH record_content IN ride_types %]
+      break;
+[% END # FOREACH ride_type %]
+    }
+    //alert(e.target.id);
+    return false;
+  });
+});
+[% END # BLOCK dashboard_js %]
+[% BLOCK level_meter %]
+   [% FOREACH level IN level_meter_levels %]
+     <div class="level_meter_block[% IF level.0 == selected_level %] selected_level[% END # IF level %] [% level.2 %]" style="background-color:rgb([% level.1 %])">[% level.0 %]</div>
+   [% END # FOREACH level %]
+     <div class="clear"></div>
+[% END # BLOCK level_meter %]

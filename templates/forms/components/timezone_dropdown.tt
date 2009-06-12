@@ -1,0 +1,12 @@
+<select name="[% select_name || 'timezone' %]" class="timezone_dropdown">
+[% FOREACH tz IN [
+        "America/New_York", "America/Detroit", "America/Kentucky/Louisville", "America/Kentucky/Monticello",
+        "America/Indiana/Indianapolis", "America/Indiana/Vincennes", "America/Indiana/Knox", "America/Indiana/Winamac",
+        "America/Indiana/Marengo", "America/Indiana/Vevay", "America/Chicago", "America/Indiana/Tell_City",
+        "America/Indiana/Petersburg", "America/Menominee", "America/North_Dakota/Center", "America/North_Dakota/New_Salem",
+        "America/Denver", "America/Boise", "America/Shiprock", "America/Phoenix", "America/Los_Angeles",
+        "America/Anchorage", "America/Juneau", "America/Yakutat", "America/Nome", "America/Adak", "Pacific/Honolulu" ]
+%]
+  <option value="[% tz %]" [% IF selected_tz && tz == selected_tz %] selected="selected"[% END # IF selected_tz %]>[% tz %]</option>
+[% END  %]
+</select>

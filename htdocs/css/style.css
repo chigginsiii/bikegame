@@ -1,0 +1,243 @@
+body
+{ 
+  font-family: Arial, Trebuchet, Helvetica, Sans-Serif;
+  font-size: 12px;
+  background-color: #134;
+  margin: 0px;
+  }       
+
+.main
+{ 
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  position: relative;
+  background-color:#FCFCB6;
+  }
+
+#site_menu
+{ 
+  left:125px;
+  position:absolute;
+  top:100px;
+  padding: 0px  0px 0px 40px;
+  margin:  10px 0px 0px 0px;
+  }
+#site_menu img, #site_menu a img
+{ 
+  float:left;
+  }
+#site_menu_on
+{ 
+  position:relative;
+  top:-5px;
+  }
+.content
+{ 
+  margin: 0px auto;
+  position:relative;
+  top:-35px;
+  width:780px;
+  }
+
+.content a, .content a:visited
+{  
+  font-weight: bold;
+  text-decoration: none;
+  color: #006;
+  }
+
+.content a:hover, .content a:active
+{  
+  color: #AC6C00;
+  }                                    
+
+/* minheight hack */
+.contentprop
+{ 
+  height: 500px;
+  width: 1px;
+  float: right;
+  }             
+
+.clear
+{ 
+  height: 1px;
+  clear:both;
+  overflow:hidden;
+  }       
+
+/*
+   * OUTER BOUNDARY AND SHADOWS
+   */
+.shadow_top
+{ 
+  width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  position:absolute;
+  top: -15px;
+  right: 10px;
+  height: 15px;
+  background: transparent url(/images/shadow_top.png) repeat-x top;
+  }
+
+.shadow_bottom
+{ 
+  width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  bottom: -35px;
+  right: 10px;
+  height: 15px;
+  background: transparent url(/images/shadow_bottom.png) repeat-x top;
+  }               
+
+.shadow_corner_ul
+{ 
+  position: absolute;
+  top:  0px;
+  left: -25px;
+  }
+
+.shadow_corner_ur
+{ 
+  position: absolute;
+  top: 0px;
+  left: 780px;
+  }                    
+.shadow_corner_ll
+{ 
+  position: absolute;
+  top:  -10px;
+  left: -25px;
+  }                    
+.shadow_corner_lr
+{ 
+  position: absolute;
+  top:  -10px;
+  left: 780px;
+  }                    
+.shadow_left
+{ 
+  position:absolute;
+  height: 100%;
+  width: 15px;
+  left: -15px;
+  top: 10px;
+  background: transparent url(/images/shadow_left.png) repeat-y scroll top;
+  }               
+.shadow_right
+{ 
+  position:absolute;
+  height: 100%;
+  width: 15px;
+  left: 800px;
+  top: 10px;
+  background: transparent url(/images/shadow_right.png) repeat-y scroll top;
+  }                
+
+
+/*
+   * HEADER AND FOOTER AREAS
+   */
+.page_header
+{ 
+  width:840px;
+  height: 150px;
+  margin: 0px auto 0px;
+  position: relative;
+  top: -43px;
+  left: -22px;
+  padding: 0px;
+  background: transparent url(/images/banner.png) no-repeat scroll center top;
+  }
+
+.page_footer 
+{ 
+  background-color:#113344;
+  bottom:-20px;
+  color:#FCFCB6;
+  font-size:10px;
+  padding-bottom:5px;
+  padding-top:5px;
+  position:absolute;
+  text-align:center;
+  width:796px;
+  border: 2px solid #FCFCB6;
+  }               
+.page_footer a, .page_footer a:visited
+{ 
+  color: #FCFCB6;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+  }                                       
+.page_footer a:hover, .page_footer a:active
+{ 
+  color: #FFF;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+  
+  }
+/*
+   * Player greet
+   */
+#player_greeting
+{ 
+  color:#FCFCB6;
+  font-size:14px;
+  font-weight:bold;
+  position:absolute;
+  right:18px;
+  text-align:right;
+  top:20px;
+  width:304px;
+  }                   
+
+#player_greeting a, #player_greeting a:visited
+{ 
+  color:#FCFCB6;
+  font-size:12px;
+  font-weight: normal;
+  text-decoration: none;
+  }                   
+#player_greeting a:hover, #player_greeting a:active
+{ 
+  color:#FFF;
+  }                   
+
+/*
+ * utility classes
+ */
+.white-type
+{ 
+  color:#FFF;
+  }
+.black-type
+{ 
+  color:#000;
+  }
+.dark-type
+{ 
+  color:#134
+  }
+.light-type
+{ 
+  color:#FFFFC6;
+  }
+.light-grey
+{ 
+  color:#999;
+  }
+.twofiftywide 
+{ 
+  width: 250px;
+  }
+.dottedbottom
+{ 
+  border-bottom: 1px dotted #CC9;
+  }
